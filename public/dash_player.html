@@ -1,0 +1,553 @@
+<!-- <!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"
+        integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    
+    <script>
+document.getElementById('changePasswordForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Stop the form from submitting the traditional way
+
+    const email = document.getElementById('emailAddress').value;
+    const oldPassword = document.getElementById('oldPassword').value;
+    const newPassword = document.getElementById('newPassword').value;
+
+    // Optional: Add password validation here if you want
+    // For now, we'll send it to the backend
+
+    fetch('/change-password', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, oldPassword, newPassword }),
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert(data); // Show success/error message from server
+        if (data === "Password updated successfully!") {
+            // Close the modal on success
+            var myModalEl = document.getElementById('settingsModal');
+            var modal = bootstrap.Modal.getInstance(myModalEl);
+            modal.hide();
+            // Clear the password fields
+            document.getElementById('oldPassword').value = '';
+            document.getElementById('newPassword').value = '';
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    });
+});
+</script>
+
+    
+
+
+</head>
+
+<body>
+    <div class="row m-3 ">
+
+        <div class="card col-3 p-3 row m-3 " style="width: 18rem; text-align: center;border: 1px black solid; background-color: lightgray;">
+            <img src="" class="card-img" alt="..." style="border-radius: 100%;" >
+            <div class="card-body">
+                <h5 class="card-title"></h5>
+                <p class="card-text"></p>
+                <a href="profile-player.html" class="btn btn-primary">players profile</a>
+            </div>
+        </div>
+
+        <div class="card col-3 p-3 row m-3" style="width: 18rem; text-align: center; border: 1px black solid; background-color: lightgray;">
+            <img src="" class="card-img-top" alt="..." style="border-radius: 100%;">
+            <div class="card-body">
+                <h5 class="card-title"></h5>
+                <p class="card-text"></p>
+                <a href="/tournament_finder" style="text-decoration: none;">
+    <button class="btn btn-primary">Avalible Tournaments</button>
+</a>
+            </div>
+        </div>
+
+          <div class="card col-3 p-3 row m-3" style="width: 18rem; text-align: center; border: 1px black solid; background-color: lightgray;">
+            <img src="" class="card-img-top" alt="..." style="border-radius: 100%;">
+            <div class="card-body">
+                <h5 class="card-title"></h5>
+                <p class="card-text"></p>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#settingsModal">Settings</button>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="settingsModalLabel">SIGN IN</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="changePasswordForm">
+          <div class="mb-3">
+            <label for="emailAddress" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="emailAddress" value="ad23@gmail.com" disabled readonly>
+          </div>
+          <div class="mb-3">
+            <label for="oldPassword" class="form-label">Old Password</label>
+            <input type="password" class="form-control" id="oldPassword" required>
+          </div>
+          <div class="mb-3">
+            <label for="newPassword" class="form-label">New Password</label>
+            <input type="password" class="form-control" id="newPassword" required>
+            <div id="passwordHelpBlock" class="form-text">
+                <ul>
+                    <li>One Lowercase Letter</li>
+                    <li>One Capital Letter</li>
+                    <li>One Number</li>
+                    <li>One Special Character</li>
+                    <li>At least 8 Characters</li>
+                </ul>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" form="changePasswordForm" class="btn btn-primary">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html> -->
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+
+<body>
+    <div class="row m-3 ">
+
+        <div class="card col-3 p-3 row m-3" style="width: 18rem; text-align: center;border: 1px black solid; background-color: lightgray;">
+            <img src="" class="card-img" alt="..." style="border-radius: 100%;">
+            <div class="card-body">
+                <h5 class="card-title"></h5>
+                <p class="card-text"></p>
+                <a href="profile-player.html" class="btn btn-primary">players profile</a>
+            </div>
+        </div>
+
+        <div class="card col-3 p-3 row m-3" style="width: 18rem; text-align: center; border: 1px black solid; background-color: lightgray;">
+            <img src="" class="card-img-top" alt="..." style="border-radius: 100%;">
+            <div class="card-body">
+                <h5 class="card-title"></h5>
+                <p class="card-text"></p>
+                <a href="/tournament-finder" class="btn btn-primary">Available Tournaments</a>
+            </div>
+        </div>
+
+        <div class="card col-3 p-3 row m-3" style="width: 18rem; text-align: center; border: 1px black solid; background-color: lightgray;">
+            <img src="" class="card-img-top" alt="..." style="border-radius: 100%;">
+            <div class="card-body">
+                <h5 class="card-title"></h5>
+                <p class="card-text"></p>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#settingsModal">Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="settingsModalLabel">Change Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="changePasswordForm">
+                        <div class="mb-3">
+                            <label for="emailAddress" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="emailAddress" disabled readonly>
+                        </div>
+
+                        <div class="mb-3 position-relative">
+                            <label for="oldPassword" class="form-label">Old Password</label>
+                            <input type="password" class="form-control" id="oldPassword" required>
+                            <i class="fa-solid fa-eye-slash position-absolute top-50 end-0 translate-middle-y me-3" id="toggleOldPassword" style="cursor: pointer;"></i>
+                        </div>
+
+                        <div class="mb-3 position-relative">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="newPassword" required>
+                            <i class="fa-solid fa-eye-slash position-absolute top-50 end-0 translate-middle-y me-3" id="toggleNewPassword" style="cursor: pointer;"></i>
+                            <div id="passwordHelpBlock" class="form-text">
+                                <ul>
+                                    <li>One Lowercase Letter</li>
+                                    <li>One Capital Letter</li>
+                                    <li>One Number</li>
+                                    <li>One Special Character</li>
+                                    <li>At least 8 Characters</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" form="changePasswordForm" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // --- Logic for the Eye Icons ---
+        function setupPasswordToggle(inputId, toggleId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.getElementById(toggleId);
+
+            if (toggleIcon) {
+                toggleIcon.addEventListener('click', function () {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    this.classList.toggle('fa-eye-slash');
+                    this.classList.toggle('fa-eye');
+                });
+            }
+        }
+        setupPasswordToggle('oldPassword', 'toggleOldPassword');
+        setupPasswordToggle('newPassword', 'toggleNewPassword');
+
+
+        // --- Logic for the Modal Form ---
+        const settingsModal = document.getElementById('settingsModal');
+        const changePasswordForm = document.getElementById('changePasswordForm');
+        const emailField = document.getElementById('emailAddress');
+
+        if (settingsModal) {
+            // Event to populate email when modal opens
+            settingsModal.addEventListener('show.bs.modal', function (event) {
+                const userEmail = localStorage.getItem('loggedInUserEmail');
+                if (userEmail) {
+                    emailField.value = userEmail;
+                } else {
+                    // alert("Could not find user email. Please log in again.");
+                    emailField.value = "Not Found";
+                }
+            });
+        }
+
+        if (changePasswordForm) {
+            // Event to submit the form
+            changePasswordForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const email = emailField.value;
+                const oldPassword = document.getElementById('oldPassword').value;
+                const newPassword = document.getElementById('newPassword').value;
+
+                fetch('/change-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, oldPassword, newPassword }),
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                    if (data.includes("successfully")) {
+                        var modal = bootstrap.Modal.getInstance(settingsModal);
+                        modal.hide();
+                        document.getElementById('changePasswordForm').reset(); // Reset the form
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred.');
+                });
+            });
+        }
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    
+    <!-- Custom Styles to match the new design -->
+    <style>
+        body {
+            background-color: #fcefee; /* Light pink/beige background */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .welcome-header {
+            text-align: center;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-header h2 {
+            font-weight: 600;
+            display: inline-block;
+            border-bottom: 3px solid #333;
+            padding-bottom: 5px;
+        }
+
+        .dashboard-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap; /* Allows cards to wrap on smaller screens */
+        }
+
+        .dashboard-card {
+            width: 320px;
+            border: 1px solid #000;
+            border-radius: 8px;
+            background-color: #fff;
+            text-align: center;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .dashboard-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-card h5 {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.75rem;
+        }
+
+        .dashboard-card p {
+            color: #555;
+            font-size: 0.95rem;
+            min-height: 80px; /* Ensures cards have a similar height */
+        }
+        
+        .logout-container {
+            text-align: center;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .btn-logout {
+            background-color: #dc3545;
+            color: white;
+            font-weight: bold;
+            padding: 10px 30px;
+            border-radius: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Welcome Header -->
+        <div class="welcome-header">
+            <h2>Welcome Player: <span id="welcomeEmail"></span></h2>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="dashboard-container">
+            <!-- Player Profile Card -->
+            <div class="dashboard-card">
+                <img src="/pics/pprofile.jpg" alt="Player Profile">
+                <h5>Player Profile</h5>
+                <p>View and manage your personal details, achievements, and game statistics.</p>
+                <a href="profile-player.html" class="btn btn-primary w-100">Manage Profile</a>
+            </div>
+
+            <!-- Available Tournaments Card -->
+            <div class="dashboard-card">
+                <img src="/pics/ptournament1.png" alt="Available Tournaments">
+                <h5>Available Tournaments</h5>
+                <p>Find and register for upcoming tournaments in your city and favorite sports.</p>
+                <a href="/tournament-finder" class="btn btn-primary w-100">Find Tournaments</a>
+            </div>
+
+            <!-- Settings Card -->
+            <div class="dashboard-card">
+                <img src="/pics/psettings.jpg" alt="Settings">
+                <h5>Account Settings</h5>
+                <p>Change your password and manage your account preferences to stay secure.</p>
+                <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#settingsModal">Settings</button>
+            </div>
+        </div>
+        
+        <!-- Logout Button -->
+        <div class="logout-container">
+            <button class="btn btn-logout" id="logoutButton">LogOut</button>
+        </div>
+    </div>
+
+    <!-- Settings Modal (No changes to the modal itself) -->
+    <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="settingsModalLabel">Change Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="changePasswordForm">
+                        <div class="mb-3">
+                            <label for="emailAddress" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="emailAddress" disabled readonly>
+                        </div>
+                        <div class="mb-3 position-relative">
+                            <label for="oldPassword" class="form-label">Old Password</label>
+                            <input type="password" class="form-control" id="oldPassword" required>
+                            <i class="fa-solid fa-eye-slash position-absolute top-50 end-0 translate-middle-y me-3" id="toggleOldPassword" style="cursor: pointer;"></i>
+                        </div>
+                        <div class="mb-3 position-relative">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="newPassword" required>
+                            <i class="fa-solid fa-eye-slash position-absolute top-50 end-0 translate-middle-y me-3" id="toggleNewPassword" style="cursor: pointer;"></i>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" form="changePasswordForm" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // --- Logic for Welcome Message and Logout ---
+        document.addEventListener("DOMContentLoaded", function() {
+            const userEmail = localStorage.getItem('loggedInUserEmail');
+            if (userEmail) {
+                document.getElementById('welcomeEmail').textContent = userEmail;
+            } else {
+                document.getElementById('welcomeEmail').textContent = "Guest";
+            }
+
+            document.getElementById('logoutButton').addEventListener('click', function() {
+                localStorage.removeItem('loggedInUserEmail');
+                // Redirect to the main index/login page
+                window.location.href = "/"; 
+            });
+        });
+
+        // --- Logic for the Eye Icons ---
+        function setupPasswordToggle(inputId, toggleId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.getElementById(toggleId);
+            if (toggleIcon) {
+                toggleIcon.addEventListener('click', function () {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    this.classList.toggle('fa-eye-slash');
+                    this.classList.toggle('fa-eye');
+                });
+            }
+        }
+        setupPasswordToggle('oldPassword', 'toggleOldPassword');
+        setupPasswordToggle('newPassword', 'toggleNewPassword');
+
+        // --- Logic for the Modal Form ---
+        const settingsModal = document.getElementById('settingsModal');
+        const changePasswordForm = document.getElementById('changePasswordForm');
+        const emailField = document.getElementById('emailAddress');
+        if (settingsModal) {
+            settingsModal.addEventListener('show.bs.modal', function (event) {
+                const userEmail = localStorage.getItem('loggedInUserEmail');
+                if (userEmail) {
+                    emailField.value = userEmail;
+                } else {
+                    emailField.value = "Not Found";
+                }
+            });
+        }
+        if (changePasswordForm) {
+            changePasswordForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const email = emailField.value;
+                const oldPassword = document.getElementById('oldPassword').value;
+                const newPassword = document.getElementById('newPassword').value;
+                fetch('/change-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, oldPassword, newPassword }),
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                    if (data.includes("successfully")) {
+                        var modal = bootstrap.Modal.getInstance(settingsModal);
+                        modal.hide();
+                        document.getElementById('changePasswordForm').reset();
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred.');
+                });
+            });
+        }
+    </script>
+</body>
+</html>

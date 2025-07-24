@@ -1,0 +1,780 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"
+        integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+
+    <script>
+        $(document).ready(function () {
+
+
+            $("#btn").click(function () {
+
+                let obj = {
+                    type: "get",
+                    url: "/server-signup",
+                    data: {
+                        id: $("#txtEmail").val(),
+                        txtPwd: $("#txtPwd").val(),
+                        comboUser: $("#comboUser").val(),
+                    }
+                }
+                $.ajax(obj).then(function (response) {
+                    alert(response);
+                    // $("#errEmail").html(response)
+                }).fail(function (err) {
+                    alert(err);
+                })
+
+            })
+
+            // $("#btn2").click(function () {
+
+            //     let obj = {
+            //         type: "get",
+            //         url: "/do_login",
+            //         data: {
+            //             txtEmail2: $("#txtEmail2").val(),
+            //             txtPwd2: $("#txtPwd2").val()
+
+            //         }
+            //     }
+            //     $.ajax(obj).then(function (response) {
+            //         alert(response);
+            //         // $("#errEmail").html(response)
+            //     }).fail(function (err) {
+            //         alert(err);
+            //     })
+
+            // })
+
+            $("#btn2").click(function () {
+
+    let obj = {
+        type: "get",
+        url: "/do_login",
+        data: {
+            txtEmail2: $("#txtEmail2").val(),
+            txtPwd2: $("#txtPwd2").val()
+        }
+    }
+
+    $.ajax(obj).then(function (response) {
+        // Check if the login was successful
+        if (response.status === "success") {
+
+            // Save the user's email in the browser for the dashboard pages
+            localStorage.setItem('loggedInUserEmail', response.email);
+
+            // Check the user type and redirect
+if (response.userType === 'Admin') { // Check for Admin first
+    window.location.href = "/dash_admin.html";
+} else if (response.userType === 'org') {
+    window.location.href = "/dash_organistaion.html";
+} else if (response.userType === 'participant') {
+    window.location.href = "/dash_player.html";
+} else {
+    alert("Unknown user type: " + response.userType);
+}
+
+        } else {
+            // Show the error message from the server (e.g., "Invalid credentials")
+            alert(response.message);
+        }
+    }).fail(function (err) {
+        alert("An error occurred. Please check the server logs.");
+    });
+});
+
+
+
+            // alert();
+            var password = $("#txtPwd");
+            var password2 = $("#txtPwd2")
+
+            $("#eye").click(function () {
+                if (password.prop("type") == "password") {
+                    $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+                    password.attr("type", "text");
+                }
+                else {
+                    $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+                    $("#txtPwd").attr("type", "password");
+                }
+            })
+            $("#eye2").click(function () {
+                if (password2.prop("type") == "password") {
+                    $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+                    password2.attr("type", "text");
+                }
+                else {
+                    $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+                    $("#txtPwd2").attr("type", "password");
+                }
+            })
+
+            $("#txtEmail").blur(function () {
+                let email = $(this).val().trim();
+                let regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+                if (email === "") {
+                    alert("fill Email Id");
+
+                }
+                else if (regex.test(email) == false) {
+                    alert("Invalid Email Id");
+
+                }
+            });
+
+
+
+            password.keyup(function () {
+                var val = $(this).val();
+                if (val.length < 8) {
+                    $("#8c").removeClass("ok").addClass("not-ok");
+                } else {
+                    $("#8c").addClass("ok").removeClass("not-ok");
+                }
+                if (!/[a-z]/.test(val)) {
+                    $("#ll").removeClass("ok").addClass("not-ok");
+                } else {
+                    $("#ll").addClass("ok").removeClass("not-ok");
+                }
+                if (!/[A-Z]/.test(val)) {
+                    $("#cl").removeClass("ok").addClass("not-ok");
+                } else {
+                    $("#cl").addClass("ok").removeClass("not-ok");
+                }
+                if (!/\d/.test(val)) {
+                    $("#on").removeClass("ok").addClass("not-ok");
+                } else {
+                    $("#on").addClass("ok").removeClass("not-ok");
+                }
+                if (!/[^A-Za-z0-9]/.test(val)) {
+                    $("#osc").removeClass("ok").addClass("not-ok");
+                } else {
+                    $("#osc").addClass("ok").removeClass("not-ok");
+                }
+            });
+
+            $("#btn").click(function () {
+                var val = $("#txtPwd").val();
+                if (val.length < 8 || !/[a-z]/.test(val) ||!/[A-Z]/.test(val)||!/\d/.test(val)||!/[^A-Za-z0-9]/.test(val)) {
+                    alert("password is weak.");
+                }
+                
+            });
+
+
+            //     $("#btn").click(function () 
+            //     {       let obj = {
+            //             type: "get",
+            //             URL: "/server-signup",
+            //             data: {
+            //                 id: $("#txtEmail").val(),
+            //                 txtPwd: $("#txtPwd").val(),
+            //                 txtUser: $("#comboUser").val(),
+            //             }
+            //         }
+            //         $.ajax(obj).then(function (response)
+            //          {
+            //             alert(JSON.stringify(response));
+            //         }).fail(function (err) {
+            //             alert(err.message);
+            //         })
+            //     })
+        })
+    </script>
+
+    <style>
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        #pass {
+            position: relative;
+        }
+
+        #eye {
+            position: absolute;
+            right: 20px;
+            top: 65%;
+            transform: translateY(-50%);
+        }
+
+        #pass2 {
+            position: relative;
+        }
+
+        #eye2 {
+            position: absolute;
+            right: 20px;
+            top: 65%;
+            transform: translateY(-50%);
+        }
+
+        .ok {
+            color: darkgreen;
+            padding: 1px;
+            border-radius: 2px;
+        }
+
+        .not-ok {
+            color: red;
+            padding: 1px;
+            border-radius: 2px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+   
+
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+        SIGN IN
+    </button>
+
+    
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">SIGN IN</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="container my-2 w-80 rounded-3">
+
+                        <div class="form-group p-2">
+                            <label>Email address</label>
+                            <input type="email" class="form-control" id="txtEmail2" name="txtEmail2"
+                                aria-describedby="emailHelp">
+                            //<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> 
+                        </div>
+                        <div class="form-group p-2" id="pass2">
+                            <label>Password</label>
+                            <input type="password" class="form-control" id="txtPwd2" name="txtPwd2">
+                            <i class="fa-solid fa-eye text-dark" id="eye2"></i>
+                        </div>
+
+
+
+                        <div class="container mt-2 mb-2">
+                            <button type="button" class=" btn btn-dark rounded-3 width-10" id="btn2">Sign in</button>
+                        </div>
+
+
+                    </form>
+
+                </div>
+             //   
+        </div>
+    </div>
+
+
+
+
+
+  
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        SIGN UP
+    </button>
+
+   
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">SIGN UP</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="container my-2 w-80 rounded-3">
+
+                        <div class="form-group p-2">
+                            <label>Email address</label>
+                            <input type="email" class="form-control" id="txtEmail" name="txtEmail"
+                                aria-describedby="emailHelp">
+                            
+                        </div>
+                        <div class="form-group p-2" id="pass">
+                            <label>Password</label>
+                            <input type="password" class="form-control" id="txtPwd" name="txtPwd">
+                            <i class="fa-solid fa-eye text-dark" id="eye"></i>
+                        </div>
+                        <div class="pwd_rqd">
+                            <ul>
+                                <li id="ll">One Lowercase Letter</li>
+                                <li id="cl">One Capital Letter</li>
+                                <li id="on">One Number</li>
+                                <li id="osc">One Special Character</li>
+                                <li id="8c">At Least 8 Characters</li>
+                            </ul>
+                        </div>
+       
+                       
+                        <div class=" p-2">
+                            User Type:<br>
+                            <select name="" id="comboUser" name="comboUser" class="form-control">
+                                <option value="none">select</option>
+                                <option value="org">organiser</option>
+                                <option value="participant">participant</option>
+                            </select>
+                        </div>
+
+
+                        <div class="container mt-2 mb-2">
+                            <button type="button" class=" btn btn-dark rounded-3 width-10" id="btn">Sign up</button>
+                        </div>
+
+
+                    </form>
+
+                </div>
+           
+            </div>
+        </div>
+    </div>
+    <a href="dash_organistaion.html">
+        <button type="button" class="btn btn-primary">dash_org</button>
+    </a>
+    
+    <a href="dash_player.html">
+        <button type="button" class="btn btn-primary">dash_player</button>
+    </a>
+
+    <a href="dash_admin.html">
+    <button type="button" class="btn btn-danger">dash_admin</button> 
+</a>
+</body>
+
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulsePoint - Tournament Platform</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+        }
+
+        /* Header/Navbar */
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: url('/pics/sportssage.webp') no-repeat center center;
+            background-size: cover;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-section p {
+            font-size: 1.25rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 80px;
+            height: 4px;
+            background-color: #0d6efd;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Services Section */
+        .service-card {
+            background: #fff;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-card img {
+            height: 150px;
+            width: 100%;
+            object-fit: contain;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Mission Section */
+        .mission-section {
+            background-color: #ffffff;
+        }
+
+        /* Developers Section */
+        .developer-card {
+            text-align: center;
+        }
+
+        .developer-card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #fff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+        }
+
+        /* Reach Us Section */
+        .reach-us-section {
+            background-color: #34495e;
+            color: white;
+        }
+        .reach-us-section .section-title::after {
+            background-color: #fff;
+        }
+        .contact-card {
+            background: #fff;
+            color: #333;
+            padding: 2rem;
+            border-radius: 10px;
+        }
+        .map-container iframe {
+            border-radius: 10px;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="/pics/Pulsepoint5.jpg" alt="Velorra Logo">
+                PulsePoint
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <h1>Welcome to PulsePoint</h1> <br>
+        <p>Connecting Players to Tournaments with Style</p>
+    </section>
+
+    <!-- Our Services Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="service-card">
+                        <img src="/pics/tournament.avif" alt="Tournaments">
+                        <h5>Tournaments</h5>
+                        <p>Create and manage tournaments with ease. Set match schedules, view live results, and track winners.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="service-card">
+                        <img src="/pics/organizer.jpg" alt="Organizers">
+                        <h5>Organizers</h5>
+                        <p>Organizers can register events, assign teams, update results, and handle all match logistics smoothly.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="service-card">
+                        <img src="/pics/sportsperson.webp" alt="Sports Players">
+                        <h5>Sports Players</h5>
+                        <p>Players can register for tournaments, view schedules, and track their game stats and performance.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="service-card">
+                        <img src="/pics/admin.avif" alt="Admin">
+                        <h5>Admin</h5>
+                        <p>Admins handle user management and platform settings to ensure smooth operations and maintain system integrity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Mission Section -->
+    <section class="section mission-section">
+        <div class="container">
+            <h2 class="section-title">Our Mission</h2>
+            <div class="row align-items-center">
+                <div class="col-md-5">
+                    <img src="/pics/mission 2.jpg" class="img-fluid rounded" alt="Mission">
+                </div>
+                <div class="col-md-7">
+                   <h3> <p>With PulsePoint, our mission is to revolutionize the way sports tournaments are organized, experienced, and remembered. We believe sports bring people together, ignite passion, and drive excellence.</p> </h3>
+                  <h5>  <p>We empower organizers with tools to manage registrations, schedules, teams, and results effortlessly — eliminating complexity and enhancing transparency.</p> </h5>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meet the Developers Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Meet the Developers</h2>
+           <b> <p class="text-center mb-5">The minds behind PulsePoint.</p></b>
+            <div class="row justify-content-center g-5">
+                <div class="col-md-4 developer-card">
+                    <img src="/pics/sir.jpg" alt="Mr. Rajesh Bansal">
+                    <h5>Under the guidance of</h5>
+                    <h4>Rajesh Bansal Sir</h4>
+                    <p class="text-muted">Founder – Bangalore Computer Education</p>
+                </div>
+                <div class="col-md-4 developer-card">
+                    <img src="/pics/hasandeep.jpg" alt="Rishika">
+                    <h5>Developed By</h5>
+                    <h4>Hasandeep Singh</h4>
+                    <p class="text-muted">A student of Giani Zail Singh Campus College</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reach Us Section -->
+    <section class="section reach-us-section">
+        <div class="container">
+            <h2 class="section-title">Reach Us</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3314.512501780368!2d74.92232847539594!3d30.17288657485907!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39172d0bb1737c33%3A0xed9d3631bdaa7e49!2sGiani%20Zail%20Singh%20Campus%20College%20of%20Engineering%20and%20Technology!5e1!3m2!1sen!2sin!4v1753364119354!5m2!1sen!2sin" width="600" height="495" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="contact-card">
+                        <h5>Contact Info</h5>
+                        <p><strong>Email:</strong> hasandeep021@gmail.com</p>
+                        <p><strong>Phone:</strong> +91 9465819078</p>
+                        <hr>
+                        <h5>Send a Message</h5>
+                        <form>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" placeholder="Your Name">
+                            </div>
+                            <div class="mb-3">
+                                <input type="email" class="form-control" placeholder="Your Email">
+                            </div>
+                            <div class="mb-3">
+                                <textarea class="form-control" rows="4" placeholder="Your Message"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Send</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 PulsePoint. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group mb-3">
+                        <label>Email address</label>
+                        <input type="email" class="form-control" id="txtEmail2">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Password</label>
+                        <input type="password" class="form-control" id="txtPwd2">
+                    </div>
+                    <button type="button" class="btn btn-primary w-100" id="btn2">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Sign Up</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group mb-3">
+                        <label>Email address</label>
+                        <input type="email" class="form-control" id="txtEmail">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Password</label>
+                        <input type="password" class="form-control" id="txtPwd">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>User Type</label>
+                        <select id="comboUser" class="form-select">
+                            <option value="participant">Participant</option>
+                            <option value="org">Organizer</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary w-100" id="btn">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // --- SIGNUP LOGIC ---
+            $("#btn").click(function () {
+                let obj = {
+                    type: "get",
+                    url: "/server-signup",
+                    data: {
+                        id: $("#txtEmail").val(),
+                        txtPwd: $("#txtPwd").val(),
+                        comboUser: $("#comboUser").val(),
+                    }
+                }
+                $.ajax(obj).then(function (response) {
+                    alert(response);
+                }).fail(function (err) {
+                    alert("An error occurred during signup.");
+                });
+            });
+
+            // --- LOGIN LOGIC ---
+            $("#btn2").click(function () {
+                let obj = {
+                    type: "get",
+                    url: "/do_login",
+                    data: {
+                        txtEmail2: $("#txtEmail2").val(),
+                        txtPwd2: $("#txtPwd2").val()
+                    }
+                }
+                $.ajax(obj).then(function (response) {
+                    if (response.status === "success") {
+                        localStorage.setItem('loggedInUserEmail', response.email);
+                        if (response.userType === 'Admin') {
+                            window.location.href = "/dash_admin.html";
+                        } else if (response.userType === 'org') {
+                            window.location.href = "/dash_organistaion.html";
+                        } else if (response.userType === 'participant') {
+                            window.location.href = "/dash_player.html";
+                        } else {
+                            alert("Unknown user type: " + response.userType);
+                        }
+                    } else {
+                        alert(response.message);
+                    }
+                }).fail(function (err) {
+                    alert("Login failed. Please check server logs.");
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

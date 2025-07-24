@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"
+        integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+
+        #picurl {
+    width: 100%;  /* Make the image fill the box horizontally */
+    height: 200px; /* Set a fixed height for the box */
+    object-fit: contain; /* This is the magic part: it scales and crops the image to fit */
+}
+        .form-control {
+            border: 1px solid black;
+            border-radius: 2px;
+        }
+
+
+        /* Stronger input styles for dark form backgrounds */
+        form input.form-control,
+        form select.form-select,
+        form textarea.form-control {
+            background-color: #ffff;
+            color: #333 ;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* When focused */
+        form input.form-control:focus,
+        form select.form-select:focus,
+        form textarea.form-control:focus {
+            border-color: #5b86e5 ;
+            box-shadow: 0 0 6px rgba(91, 134, 229, 0.4);
+            background-color: #fff;
+            color: #111 ;
+            outline: none;
+        }
+
+        /* Label visibility fix on dark backgrounds */
+        form label {
+            color: #f2f2f2;
+            font-weight: 500;
+        }
+    
+
+    </style>
+
+    <script>
+        function showPrev(picupload, picurl) {
+            const [file] = picupload.files
+            if (file) {
+                picurl.src = URL.createObjectURL(file)
+            }
+        }
+
+
+        $(document).ready(function () {
+
+            $("#emailid").blur(function () {
+                let email = $(this).val().trim();
+                let regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+                if (email === "") {
+                    alert("fill Email Id");
+
+                }
+                else if (regex.test(email) == false) {
+                    alert("Invalid Email Id");
+
+                }
+
+
+
+
+                // $("#register").click(function () {
+                //          let obj = {
+                //         type: "get",
+                //         url: "/do_registration",
+                //         data: {
+                //             emailid: $("#emailid").val(),
+                //             orgname: $("#orgname").val(),
+                //             regnumber: $("#regnumber").val(),
+                //             address: $("#address").val(),
+                //             sports: $("#sports").val(),
+                //             website: $("#website").val(),
+                //             insta: $("#insta").val(),
+                //             head: $("#head").val(),
+                //             contact: $("#contact").val(),
+
+                //         }
+                //     }
+                //     $.ajax(obj).then(function (response) {
+                //         alert(response);
+                //     }).fail(function (err) {
+                //         alert(err);
+                //     })
+                // })
+            });
+
+            $("#search").click(function () {
+
+                let obj = {
+                    type: "get",
+                    url: "/get-one",
+                    data: {
+                        emailid: $("#emailid").val()
+                        //txtPwd:$("#txtPwd").val()
+                    }
+                }
+
+                $.ajax(obj).then(function (response) {
+                    let orgname = response[0].orgname;
+                    let regnumber = response[0].regnumber;
+                    let address = response[0].address;
+                    let sports = response[0].sports;
+                    let website = response[0].website;
+                    let insta = response[0].insta;
+                    let head = response[0].head;
+                    let contact = response[0].contact;
+                    let otherinfo = response[0].otherinfo;
+                    let picurl = response[0].picurl;
+
+
+                    $("#orgname").val(orgname);
+                    $("#regnumber").val(regnumber);
+                    $("#address").val(address);
+                    $("#sports").val(sports);
+                    $("#website").val(website);
+                    $("#insta").val(insta);
+                    $("#head").val(head);
+                    $("#contact").val(contact);
+                    $("#otherinfo").val(otherinfo);
+                    $("#picurl").prop("src", picurl);
+                    $("#hdn").val(picurl);
+
+
+                }).fail(function (err) { alert(err.message) })
+            });
+        });
+
+    </script>
+
+</head>
+
+<body>
+
+
+    <div class="container mx-auto" style="width: 70%;">
+
+        <form class="row g-3 m-2 p-3 needs-validation border-top-0 rounded-bottom shadow-sm"
+            enctype="multipart/form-data" style=" background: linear-gradient(to bottom right, #6e6e6e, #2c3e50);
+            color: white;
+            border-radius: 12px; " method="post" action="/do_registration">
+
+            <div class="col-12 text-center mb-3">
+                <h4 style="
+                font-weight: 600;
+                letter-spacing: 0.8px;
+                margin-bottom: 0;">
+                    Organisation Details
+                </h4>
+                <hr style="width: 50px; border-top: 2px solid white; margin: 8px auto 0;">
+            </div>
+
+            <input type="hidden" id="hdn" name="hdn">
+
+            <!-- <div class=" col-10 md-3">
+                <label for="inputEmail4" class="form-label">Email:</label>
+                <input type="email" class="form-control" id="emailid" name="emailid" required>
+
+            </div>
+            <div class=" col-2 mt-5">
+                <button type="button" class="btn btn-dark" id="search">search</button>
+            </div> -->
+
+            <div class="col-12 mb-3">
+    <!-- This container keeps the label and button together -->
+    <div class="d-flex align-items-center mb-1"> 
+        <label for="emailid" class="form-label mb-0">Email:</label>
+        <!-- The "ms-2" adds a small space between the text and the button -->
+        <button type="button" class="btn btn-dark btn-sm ms-2" id="search">Search</button>
+    </div>
+    <input type="email" class="form-control" id="emailid" name="emailid" required>
+</div>
+            <br>
+            <div class=" col-8 md-3">
+                <label class="form-label">org name:</label>
+                <input type="text" class="form-control" id="orgname" name="orgname" required>
+
+            </div>
+            <br>
+            <div class=" col-4 md-3">
+                <label class="form-label">Registration No.:</label>
+                <input type="text" class="form-control" id="regnumber" name="regnumber" required>
+
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputAddress" class="form-label">Address:</label>
+                <input type="text" class="form-control" id="address" name="address" placeholder="" required>
+
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputCity" class="form-label">City:</label>
+                <input type="text" class="form-control" id="inputCity" name="inputCity" required>
+
+            </div>
+            <div class="col-md-4">
+                <label for="inputState" class="form-label">State:</label>
+                <select id="inputState" class="form-select">
+                    <option selected>Choose...</option>
+                    <option>PUNJAB</option>
+                    <option>RAJASTHAN</option>
+                    <option>HIMACHAL</option>
+
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="inputZip" class="form-label">Zip:</label>
+                <input type="text" class="form-control" id="inputZip">
+            </div>
+
+            <div class=" col-12 md-1 p-1">
+                <label class="form-label">Deals in Sports:</label>
+                <input type="text" class="form-control" id="sports" name="sports" required>
+
+            </div>
+
+            <div class=" col-6 md-3 p-1">
+                <label class="form-label">webite:</label>
+                <input type="text" class="form-control" id="website" name="website">
+            </div>
+
+            <div class=" col-6 md-3 p-1">
+                <label class="form-label">insta link:</label>
+                <input type="text" class="form-control" id="insta" name="insta">
+            </div>
+
+            <div class=" col-6 md-3 p-1">
+                <label class="form-label">Org head:</label>
+                <input type="text" class="form-control" id="head" name="head" required>
+
+            </div>
+
+            <div class=" col-6 md-3 p-1">
+                <label class="form-label">Contact No.</label>
+                <input type="number" class="form-control" id="contact" name="contact" required>
+
+            </div>
+
+
+            <!-- pic----------------------------------------------------- -->
+
+            <div class=" col-6 md-3 p-3">
+                <label class="form-label">registration cirtificate pic:</label>
+                <input type="file" class="form-control" id="picupload" name="picupload"
+                    onchange="showPrev(picupload,picurl)">
+            </div>
+
+            <div class=" col-4 md-3 p-3">
+                <img src="pics/upload1.jpg" alt="upload pic" id="picurl">
+            </div>
+            <!-- -------------------------------------------------------- -->
+
+            <div class="row p-1">
+                <div class="col-md-12">
+                    <label for="otherinfo" class="form-label">Other Info:</label>
+                    <textarea class="form-control" id="otherinfo" rows="6" name="otherinfo"></textarea>
+                </div>
+            </div>
+
+
+            
+            <div class="col-12">
+                <button type="submit" class="btn btn-dark" id="register" name="register">Sign in</button>
+                <button type="submit" class="btn btn-dark" id="update" name="update" value="Update"
+                    formaction="/update-user">UPDATE</button>
+            </div>
+
+        </form>
+    </div>
+
+
+
+</body>
+
+</html>
