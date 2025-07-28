@@ -535,6 +535,19 @@ if (response.userType === 'Admin') { // Check for Admin first
     width: 100%;
     position: absolute;
 }
+
+/* Add this new CSS for the navigation links */
+.navbar-nav .nav-link {
+    color: #333;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+.navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+    background-color: #0d6efd;
+    color: #fff;
+}
     </style>
 </head>
 
@@ -669,7 +682,7 @@ if (response.userType === 'Admin') { // Check for Admin first
     <!-- Reach Us Section -->
     <section id="reach-us" class="section reach-us-section">
         <div class="container">
-            <h2 class="section-title">Reach uUs</h2>
+            <h2 class="section-title">Reach Us</h2>
             <div class="row g-4">
                 <div class="col-md-6">
                     <div class="map-responsive">
