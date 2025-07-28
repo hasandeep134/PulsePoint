@@ -31,6 +31,28 @@
     height: 200px; /* Set a fixed height for the box */
     object-fit: contain; /* This is the magic part: it scales and crops the image to fit */
 }
+
+.dashboard-navbar {
+    background-color: #343a40; /* Dark background */
+    color: white;
+    padding: 0.75rem 2rem;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: white !important;
+}
+
+.navbar-brand img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.welcome-text {
+    font-size: 1rem;
+    color: white; /* Ensures the text is white */
+}
         .form-control {
             border: 1px solid black;
             border-radius: 2px;
@@ -68,6 +90,17 @@
     
 
     </style>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const userEmail = localStorage.getItem('loggedInUserEmail');
+        if (userEmail) {
+            // This will put the email in the new navbar
+            document.getElementById('welcomeEmail').textContent = userEmail;
+        } else {
+            document.getElementById('welcomeEmail').textContent = "Guest";
+        }
+    });
+</script>
 
     <script>
         function showPrev(picupload, picurl) {
@@ -166,6 +199,17 @@
 </head>
 
 <body>
+    <nav class="navbar dashboard-navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="/pics/Pulsepoint5.jpg" alt="PulsePoint Logo">
+            PulsePoint
+        </a>
+        <span class="navbar-text welcome-text">
+            Welcome: <span id="welcomeEmail"></span>
+        </span>
+    </div>
+</nav>
 
 
     <div class="container mx-auto" style="width: 70%;">
