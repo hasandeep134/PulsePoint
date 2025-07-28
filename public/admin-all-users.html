@@ -9,6 +9,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <style>
+
+        .dashboard-navbar {
+    background-color: #343a40; /* Dark background */
+    color: white;
+    padding: 0.75rem 2rem;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: white !important;
+}
+
+.navbar-brand img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.welcome-text {
+    font-size: 1rem;
+    color: white; /* Ensures the text is white */
+}
         body { background-color: #f8f9fa; } 
         .container { max-width: 1200px; }
         .console-header {
@@ -36,6 +58,17 @@
 </head>
 
 <body ng-controller="usersCtrl" ng-init="fetchAllUsers()">
+    <nav class="navbar dashboard-navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="/pics/Pulsepoint5.jpg" alt="PulsePoint Logo">
+            PulsePoint
+        </a>
+        <span class="navbar-text welcome-text">
+            Welcome: <span id="welcomeEmail"></span>
+        </span>
+    </div>
+</nav>
 
     <div class="container mt-4">
         <h2 class="console-header">Users Admin Console</h2>
@@ -110,5 +143,16 @@
             };
         });
     </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const userEmail = localStorage.getItem('loggedInUserEmail');
+        if (userEmail) {
+            // This will put the email in the new navbar
+            document.getElementById('welcomeEmail').textContent = userEmail;
+        } else {
+            document.getElementById('welcomeEmail').textContent = "Guest";
+        }
+    });
+</script>
 </body>
 </html>
