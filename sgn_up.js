@@ -96,7 +96,6 @@ app.get("/do_login", function (req, resp) {
         }
 
         if (results.length === 0) {
-            // No user found with that email and password combination
             return resp.json({ status: "invalid", message: "Invalid credentials." });
         }
 
@@ -244,6 +243,7 @@ app.get("/get-one", function (req, resp) {
 })
 
 app.post("/Post_event", function (req, resp) {
+    
 
     let emailid = req.body.emailid;
     let eventname = req.body.eventname;
@@ -262,6 +262,7 @@ app.post("/Post_event", function (req, resp) {
 
     pool.query("insert into post_event values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [null, emailid, eventname, doe, Address, toe, inputState, Category, minage, contact, maxage, lastDate, fee, pMny, otherinfo], function (errKuch, result) {
         if (errKuch == null) {
+
             if (result.affectedRows == 1)
                 resp.send("published Successfulllyyy");
             else
@@ -276,6 +277,7 @@ app.post("/Post_event", function (req, resp) {
 })
 
 app.get("/do-fetch-all-users", function (req, resp) {
+
     let emailid = req.query.data;
 
     pool.query("select * from post_event where emailid = ?", [emailid], function (err, allRecords) {
@@ -288,14 +290,17 @@ app.get("/delete-one", function (req, resp) {
     let rid = req.query.rid;
 
     pool.query("delete from post_event where rid=?", [rid], function (errkuch, result) {
+
         if (errkuch == null) {
             if (result.affectedRows == 1) {
                 resp.send("Deleted Successfully");
             }
+
             else {
                 resp.send("invalid")
             }
         }
+
         else
             resp.send(errkuch);
     })
@@ -308,6 +313,7 @@ async function RajeshBansalKaChirag(imgurl) {
 
     const result = await model.generateContent([
         {
+
             inlineData: {
                 data: Buffer.from(imageResp).toString("base64"),
                 mimeType: "image/jpeg",
@@ -327,7 +333,7 @@ async function RajeshBansalKaChirag(imgurl) {
 
 app.get("/dash_admin.html", function (req, resp) {
     // Make sure the file is in your main project folder or /public
-    let path = __dirname + "/public/dash_admin.html"; 
+    let path = __dirname + "/public/dash_admin.html";
     resp.sendFile(path);
 });
 
@@ -364,16 +370,17 @@ app.get("/get-distinct-games", function (req, resp) {
     });
 });
 
-// =================================================================
-// --- ADMIN ROUTES ---
-// =================================================================
 
-// Route to get all registered users from the users2025 table
+
 app.get("/admin/get-all-users", function (req, resp) {
+
     pool.query("SELECT txtEmail, comboUser, status, dos FROM users2025", (err, results) => {
+
         if (err) {
+
             console.error("Admin fetch users error:", err.message);
             return resp.status(500).send("Database error.");
+
         }
         resp.json(results);
     });
@@ -402,7 +409,7 @@ app.get("/admin/get-all-players", function (req, resp) {
 });
 
 app.get("/admin/update-user-status", function (req, resp) {
-    const { email, status } = req.query; 
+    const { email, status } = req.query;
 
     if (!email || !status) {
         return resp.status(400).send("Email and status are required.");
@@ -433,7 +440,7 @@ app.post("/do_player-details", async function (req, resp) {
         await cloudinary.uploader.upload(fullPath).then(function (picUrlResult) {
 
 
-            picurl2 = picUrlResult.url;   //will give u the url of ur pic on cloudinary server
+            picurl2 = picUrlResult.url;   
 
             console.log(picurl2);
         });
@@ -474,7 +481,7 @@ app.post("/do_player-details", async function (req, resp) {
             console.log(picurl1);
 
             let emailid = req.body.emailid;
-           
+
             let games = req.body.games;
             let address = req.body.address;
             let otherinfo = req.body.otherinfo;
@@ -484,7 +491,7 @@ app.post("/do_player-details", async function (req, resp) {
 
             pool.query(
                 "insert into player_details(name, adhaar_number, gender,dob,emailid, picurl1,picurl2, games, address, otherinfo, contact) values(?,?,?,?,?,?,?,?,?,?,?)",
-                [name, adhaar_number,gender, dob, emailid, picurl1, picurl2,  games, address, otherinfo, contact],
+                [name, adhaar_number, gender, dob, emailid, picurl1, picurl2, games, address, otherinfo, contact],
                 function (errKuch) {
                     if (errKuch == null)
                         resp.send("recorded successfully");
