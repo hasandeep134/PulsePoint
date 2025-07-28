@@ -43,6 +43,32 @@
             transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
         }
+        .dashboard-navbar {
+    background-color: #343a40; /* Dark background */
+    color: white;
+    padding: 0.75rem 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: white !important;
+}
+
+.navbar-brand img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.welcome-text {
+    font-size: 1rem;
+}
+
+/* This adds space so your cards aren't hidden under the navbar */
+.dashboard-container {
+    padding-top: 4rem;
+}
         .dashboard-card img {
             width: 100%;
             height: 180px;
@@ -76,6 +102,19 @@
 </head>
 
 <body>
+
+    <nav class="navbar dashboard-navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="/pics/Pulsepoint5.jpg" alt="PulsePoint Logo">
+            PulsePoint
+        </a>
+        <span class="navbar-text welcome-text">
+            Welcome: <span id="welcomeEmail"></span>
+        </span>
+    </div>
+
+</nav>
     <div class="container">
         <div class="welcome-header">
             <h2>Welcome Admin: <span id="welcomeEmail"></span></h2>
