@@ -25,6 +25,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <style>
+        /* ======================================================= */
+/* ====> PASTE THE NEW NAVBAR STYLES HERE <==== */
+/* ======================================================= */
+.dashboard-navbar {
+    background-color: #343a40; /* Dark background */
+    color: white;
+    padding: 0.75rem 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 2rem; /* Adds space between navbar and form */
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: white !important;
+}
+
+.navbar-brand img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.welcome-text {
+    font-size: 1rem;
+}
         .form-control {
             border: 1px solid black;
             border-radius: 2px;
@@ -163,11 +188,33 @@
         });
 
     </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const userEmail = localStorage.getItem('loggedInUserEmail');
+        if (userEmail) {
+            // This will put the email in the new navbar
+            document.getElementById('welcomeEmail').textContent = userEmail;
+        } else {
+            document.getElementById('welcomeEmail').textContent = "Guest";
+        }
+    });
+</script>
 
 </head>
 
 <body>
 
+    <nav class="navbar dashboard-navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="/pics/Pulsepoint5.jpg" alt="PulsePoint Logo">
+            PulsePoint
+        </a>
+        <span class="navbar-text welcome-text">
+            Welcome: <span id="welcomeEmail"></span>
+        </span>
+    </div>
+</nav>
 
     <div class="container mx-auto" style="width: 70%;">
 
