@@ -432,6 +432,23 @@ if (response.userType === 'Admin') { // Check for Admin first
         .section {
             padding: 60px 0;
         }
+        /* Add these new styles for password validation and the eye icon */
+.pwd_rqd ul {
+    list-style-type: none;
+    padding-left: 0;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+.ok { color: darkgreen; }
+.not-ok { color: red; }
+.eye-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d;
+}
 
         .section-title {
             text-align: center;
@@ -731,10 +748,16 @@ if (response.userType === 'Admin') { // Check for Admin first
                         <label>Email address</label>
                         <input type="email" class="form-control" id="txtEmail2">
                     </div>
-                    <div class="form-group mb-3">
+                    <!-- <div class="form-group mb-3">
                         <label>Password</label>
                         <input type="password" class="form-control" id="txtPwd2">
-                    </div>
+                    </div> -->
+   <div class="form-group mb-3">
+    <label>Password</label>
+    <input type="password" class="form-control" id="txtPwd_or_txtPwd2">
+</div>
+</div>
+</div>
                     <button type="button" class="btn btn-primary w-100" id="btn2">Login</button>
                 </div>
             </div>
@@ -754,10 +777,23 @@ if (response.userType === 'Admin') { // Check for Admin first
                         <label>Email address</label>
                         <input type="email" class="form-control" id="txtEmail">
                     </div>
-                    <div class="form-group mb-3">
+                    <!-- <div class="form-group mb-3">
                         <label>Password</label>
                         <input type="password" class="form-control" id="txtPwd">
-                    </div>
+                    </div> -->
+      <div class="form-group mb-3">
+    <label>Password</label>
+    <input type="password" class="form-control" id="txtPwd_or_txtPwd2">
+</div>
+<div class="pwd_rqd">
+    <ul>
+        <li id="ll" class="not-ok">One Lowercase Letter</li>
+        <li id="cl" class="not-ok">One Capital Letter</li>
+        <li id="on" class="not-ok">One Number</li>
+        <li id="osc" class="not-ok">One Special Character</li>
+        <li id="8c" class="not-ok">At Least 8 Characters</li>
+    </ul>
+</div>
                     <div class="form-group mb-3">
                         <label>User Type</label>
                         <select id="comboUser" class="form-select">
@@ -823,6 +859,38 @@ if (response.userType === 'Admin') { // Check for Admin first
                     alert("Login failed. Please check server logs.");
                 });
             });
+
+           
+var password = $("#txtPwd");
+var password2 = $("#txtPwd2");
+
+$("#eye").click(function () {
+    if (password.prop("type") == "password") {
+        $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+        password.attr("type", "text");
+    } else {
+        $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+        password.attr("type", "password");
+    }
+});
+$("#eye2").click(function () {
+    if (password2.prop("type") == "password") {
+        $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+        password2.attr("type", "text");
+    } else {
+        $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+        password2.attr("type", "password");
+    }
+});
+
+password.keyup(function () {
+    var val = $(this).val();
+    if (val.length < 8) { $("#8c").removeClass("ok").addClass("not-ok"); } else { $("#8c").addClass("ok").removeClass("not-ok"); }
+    if (!/[a-z]/.test(val)) { $("#ll").removeClass("ok").addClass("not-ok"); } else { $("#ll").addClass("ok").removeClass("not-ok"); }
+    if (!/[A-Z]/.test(val)) { $("#cl").removeClass("ok").addClass("not-ok"); } else { $("#cl").addClass("ok").removeClass("not-ok"); }
+    if (!/\d/.test(val)) { $("#on").removeClass("ok").addClass("not-ok"); } else { $("#on").addClass("ok").removeClass("not-ok"); }
+    if (!/[^A-Za-z0-9]/.test(val)) { $("#osc").removeClass("ok").addClass("not-ok"); } else { $("#osc").addClass("ok").removeClass("not-ok"); }
+});
         });
     </script>
 
