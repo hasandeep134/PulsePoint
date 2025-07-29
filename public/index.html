@@ -390,6 +390,24 @@ if (response.userType === 'Admin') { // Check for Admin first
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f0f2f5;
         }
+        /* Add these new styles for password validation and the eye icon */
+.pwd_rqd ul {
+    list-style-type: none;
+    padding-left: 0;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+.ok { color: darkgreen; }
+.not-ok { color: red; }
+.password-wrapper { position: relative; }
+.eye-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d;
+}
 
         /* Header/Navbar */
         .navbar {
@@ -432,23 +450,6 @@ if (response.userType === 'Admin') { // Check for Admin first
         .section {
             padding: 60px 0;
         }
-        /* Add these new styles for password validation and the eye icon */
-.pwd_rqd ul {
-    list-style-type: none;
-    padding-left: 0;
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-}
-.ok { color: darkgreen; }
-.not-ok { color: red; }
-.eye-icon {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: #6c757d;
-}
 
         .section-title {
             text-align: center;
@@ -552,7 +553,7 @@ if (response.userType === 'Admin') { // Check for Admin first
     width: 100%;
     position: absolute;
 }
-
+/* Add this new CSS for the navigation links */
 .navbar-nav .nav-link {
     color: #333;
     font-weight: 500;
@@ -748,16 +749,10 @@ if (response.userType === 'Admin') { // Check for Admin first
                         <label>Email address</label>
                         <input type="email" class="form-control" id="txtEmail2">
                     </div>
-                    <!-- <div class="form-group mb-3">
+                    <div class="form-group mb-3">
                         <label>Password</label>
                         <input type="password" class="form-control" id="txtPwd2">
-                    </div> -->
-   <div class="form-group mb-3">
-    <label>Password</label>
-    <input type="password" class="form-control" id="txtPwd_or_txtPwd2">
-</div>
-</div>
-</div>
+                    </div>
                     <button type="button" class="btn btn-primary w-100" id="btn2">Login</button>
                 </div>
             </div>
@@ -781,9 +776,12 @@ if (response.userType === 'Admin') { // Check for Admin first
                         <label>Password</label>
                         <input type="password" class="form-control" id="txtPwd">
                     </div> -->
-      <div class="form-group mb-3">
+                    <div class="form-group mb-3">
     <label>Password</label>
-    <input type="password" class="form-control" id="txtPwd_or_txtPwd2">
+    <div class="password-wrapper">
+        <input type="password" class="form-control" id="txtPwd">
+        <i class="fa-solid fa-eye eye-icon" id="eye"></i>
+    </div>
 </div>
 <div class="pwd_rqd">
     <ul>
@@ -859,8 +857,7 @@ if (response.userType === 'Admin') { // Check for Admin first
                     alert("Login failed. Please check server logs.");
                 });
             });
-
-           
+            // --- PASTE THIS ENTIRE BLOCK FOR VALIDATION AND EYE ICONS ---
 var password = $("#txtPwd");
 var password2 = $("#txtPwd2");
 
